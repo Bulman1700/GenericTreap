@@ -34,5 +34,7 @@ public class Pokemon
 		System.out.println("Treap size (n): " + t.size());
 		System.out.println("Treap height (h): " + t.height());
 		System.out.println("Treap constant (hopefully) (c): " + t.height() / (Math.log10(t.size())));
+
+		t.inorder();
 	}
 }

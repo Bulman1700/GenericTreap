@@ -213,7 +213,13 @@ public class Treap<P extends Comparable<P>>
 
   public void inorder()
   {
-    System.out.print("In-order Traversal:");
+    if (root == null)
+    {
+      System.out.println("(Empty tree)");
+      return;
+    }
+
+    System.out.print("In-order Traversal: ");
     inorder(root);
     System.out.println();
   }
@@ -221,10 +227,12 @@ public class Treap<P extends Comparable<P>>
   private void inorder(Node<P> root)
   {
     if (root == null)
+    {
       return;
+    }
 
     inorder(root.left);
-    System.out.print(" " + root.data + ",");
+    System.out.print(root.data + "  ");
     inorder(root.right);
   }
 }
