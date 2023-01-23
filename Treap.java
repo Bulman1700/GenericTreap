@@ -1,5 +1,4 @@
 // Johnathon Bulman
-// COP 3503, Fall 2022
 
 // Treap.java
 // ==========
