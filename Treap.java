@@ -7,14 +7,14 @@
 
 import java.util.*;
 
-// Node class
-class Node<Pokemon>
+// Node class labeled 'Pokeball'.
+class Pokeball<Pokemon>
 {
   Pokemon data; // user data
   int priority; // randomly generated
-  Node<Pokemon> left, right;
+  Pokeball<Pokemon> left, right; // references
 
-  Node(Pokemon data, int priority)
+  Pokeball(Pokemon data, int priority)
   {
     this.data = data;
     this.priority = priority;
@@ -22,13 +22,19 @@ class Node<Pokemon>
 }
 
 // Treap Class
-// Holds generic 'P' data type.
+// Holds generic 'P' data type inside the 'Pokeball'.
 public class Treap<P extends Comparable<P>>
 {
   // Don't jack up my root!
-  private Node<P> root;
-  private HashSet<Integer> myHash = new HashSet<Integer>(); // stores used priorities
+  private Pokeball<P> root;
+  private Set<Integer> myHash; // used priorities
   private int size; // size of treap
+
+  // Initialize the set.
+  public Treap()
+  {
+    this.myHash = new HashSet<Integer>();
+  }
 
   // Generate random priority method.
   private int randNum()
@@ -47,9 +53,9 @@ public class Treap<P extends Comparable<P>>
   }
 
   // Assumes root is non-null.
-  private Node<P> rotateLeft(Node<P> root)
+  private Pokeball<P> rotateLeft(Pokeball<P> root)
   {
-    Node<P> curr = root.right;
+    Pokeball<P> curr = root.right;
 
     root.right = curr.left;
     curr.left = root;
@@ -58,9 +64,9 @@ public class Treap<P extends Comparable<P>>
   }
 
   // Assumes root is non-null.
-  private Node<P> rotateRight(Node<P> root)
+  private Pokeball<P> rotateRight(Pokeball<P> root)
   {
-    Node<P> curr = root.left;
+    Pokeball<P> curr = root.left;
 
     root.left = curr.right;
     curr.right = root;
@@ -75,12 +81,12 @@ public class Treap<P extends Comparable<P>>
   }
 
   // Place 'data' in the Treap.
-  private Node<P> insert(Node<P> root, P data)
+  private Pokeball<P> insert(Pokeball<P> root, P data)
   {
     if (root == null)
     {
-      this.size++; // new node => size++
-      return new Node<>(data, randNum()); // New node with 'data' and random priority.
+      this.size++;
+      return new Pokeball<>(data, randNum());
     }
 
     // Searching for position to place data..
@@ -104,14 +110,14 @@ public class Treap<P extends Comparable<P>>
     return root;
   }
 
-  // Calls private rm()
+  // Calls private rm() method.
   public void remove(P data)
   {
     root = rm(root, data);
   }
 
   // Removes 'data' from the Treap.
-  private Node<P> rm(Node<P> root, P data)
+  private Pokeball<P> rm(Pokeball<P> root, P data)
   {
     if (root == null)
       return null;
@@ -128,7 +134,7 @@ public class Treap<P extends Comparable<P>>
     else // data found
     {
       // Checking for children and performing appropriate
-      // maneuvers to remove node.
+      // maneuvers to remove Pokeball.
       if (root.left == null && root.right == null)
       {
         myHash.remove(root.priority);
@@ -170,7 +176,7 @@ public class Treap<P extends Comparable<P>>
   }
 
   // Searches for 'data' in the Treap.
-  private boolean contains(Node<P> root, P data)
+  private boolean contains(Pokeball<P> root, P data)
   {
     if (root == null)
       return false;
@@ -201,17 +207,17 @@ public class Treap<P extends Comparable<P>>
   }
 
   // Returns the height of the Treap.
-  private int H(Node<P> root)
+  private int H(Pokeball<P> root)
   {
     if (root == null)
-      return -1;
+      return -1; // empty tree
 
     return 1 + max(H(root.left), H(root.right));
   }
 
-  // Tree traversal:
+  // Standard tree traversals:
 
-  public void inorder()
+  public void inorderTraversal()
   {
     if (root == null)
     {
@@ -219,20 +225,67 @@ public class Treap<P extends Comparable<P>>
       return;
     }
 
-    System.out.print("In-order Traversal: ");
+    System.out.println("In-order Traversal:");
+    System.out.println("===================");
     inorder(root);
     System.out.println();
   }
 
-  private void inorder(Node<P> root)
+  private void inorder(Pokeball<P> root)
   {
     if (root == null)
-    {
       return;
-    }
 
     inorder(root.left);
     System.out.print(root.data + "  ");
     inorder(root.right);
+  }
+
+  public void preorderTraversal()
+  {
+    if (root == null)
+    {
+      System.out.println("(Empty tree)");
+      return;
+    }
+
+    System.out.println("Pre-order Traversal:");
+    System.out.println("====================");
+    preorder(root);
+    System.out.println();
+  }
+
+  private void preorder(Pokeball<P> root)
+  {
+    if (root == null)
+      return;
+
+    System.out.print(root.data + "  ");
+    preorder(root.left);
+    preorder(root.right);
+  }
+
+  public void postorderTraversal()
+  {
+    if (root == null)
+    {
+      System.out.println("(Empty tree)");
+      return;
+    }
+
+    System.out.println("Post-order Traversal:");
+    System.out.println("=====================");
+    postorder(root);
+    System.out.println();
+  }
+
+  private void postorder(Pokeball<P> root)
+  {
+    if (root == null)
+      return;
+
+    postorder(root.left);
+    postorder(root.right);
+    System.out.print(root.data + "  ");
   }
 }
