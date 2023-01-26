@@ -85,7 +85,7 @@ public class Treap<P extends Comparable<P>>
   {
     if (root == null)
     {
-      this.size++;
+      size++;
       return new Pokeball<>(data, randNum());
     }
 
@@ -93,6 +93,7 @@ public class Treap<P extends Comparable<P>>
     else if (data.compareTo(root.data) < 0)
     {
       root.left = insert(root.left, data);
+      
       // Perform rotations if necessary.
       if (root.left.priority < root.priority)
         root = rotateRight(root);
@@ -101,6 +102,7 @@ public class Treap<P extends Comparable<P>>
     else if (data.compareTo(root.data) > 0)
     {
       root.right = insert(root.right, data);
+      
       // Perform rotations if necessary.
       if (root.right.priority < root.priority)
         root = rotateLeft(root);
@@ -124,13 +126,11 @@ public class Treap<P extends Comparable<P>>
 
     // Searching for 'data'..
     else if (data.compareTo(root.data) < 0)
-    {
       root.left = rm(root.left, data);
-    }
+    
     else if (data.compareTo(root.data) > 0)
-    {
       root.right = rm(root.right, data);
-    }
+    
     else // data found
     {
       // Checking for children and performing appropriate
@@ -142,16 +142,19 @@ public class Treap<P extends Comparable<P>>
 
         return root = null;
       }
+
       else if (root.left == null)
       {
         root = rotateLeft(root);
         root.left = rm(root.left, data);
       }
+
       else if (root.right == null)
       {
         root = rotateRight(root);
         root.right = rm(root.right, data);
       }
+
       else // 2 children
       {
         if (root.right.priority > root.left.priority)
@@ -159,6 +162,7 @@ public class Treap<P extends Comparable<P>>
           root = rotateRight(root);
           root.right = rm(root.right, data);
         }
+
         else
         {
           root = rotateLeft(root);
@@ -166,6 +170,7 @@ public class Treap<P extends Comparable<P>>
         }
       }
     }
+
     return root;
   }
 
@@ -183,8 +188,10 @@ public class Treap<P extends Comparable<P>>
 
     else if (data.compareTo(root.data) > 0)
       return contains(root.right, data);
+
     else if (data.compareTo(root.data) < 0)
       return contains(root.left, data);
+      
     else
       return true;
   }
